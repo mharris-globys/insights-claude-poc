@@ -1,0 +1,145 @@
+.table-container {
+  overflow-x: auto;
+}
+
+.org-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.org-table thead {
+  background: #f5f7fa;
+  position: sticky;
+  top: 0;
+}
+
+.org-table th {
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+}
+
+.org-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.org-table th.sortable:hover {
+  background-color: #e8eaf6;
+}
+
+.org-table tbody tr {
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.org-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.org-table tbody tr.selected {
+  background-color: #e3f2fd;
+  border-left: 3px solid #1976d2;
+}
+
+.org-table td {
+  padding: 0.75rem;
+}
+
+.org-name {
+  font-weight: 500;
+}
+
+.org-id {
+  font-size: 0.75rem;
+  color: #999;
+  margin-top: 0.25rem;
+}
+
+.risk-badge, .size-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.risk-badge.low {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.risk-badge.medium {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.risk-badge.high {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.size-badge {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.size-badge.small {
+  background: #f3e5f5;
+  color: #6a1b9a;
+}
+
+.size-badge.medium {
+  background: #e0f2f1;
+  color: #00695c;
+}
+
+.size-badge.large {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.size-badge.enterprise {
+  background: #fce4ec;
+  color: #ad1457;
+}
+
+.satisfaction-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.satisfaction-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.satisfaction-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s, background-color 0.3s;
+  position: relative;
+  /* Background color set via inline style based on satisfaction score */
+}
+
+@media (max-width: 768px) {
+  .org-table {
+    font-size: 0.8rem;
+  }
+
+  .org-table th,
+  .org-table td {
+    padding: 0.5rem;
+  }
+}
