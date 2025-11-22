@@ -9,7 +9,9 @@
 }
 
 .org-table thead {
-  background: #f5f7fa;
+  background: rgba(245, 247, 250, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   position: sticky;
   top: 0;
 }
@@ -43,7 +45,9 @@
 }
 
 .org-table tbody tr.selected {
-  background-color: #e3f2fd;
+  background: rgba(227, 242, 253, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-left: 3px solid #1976d2;
 }
 
