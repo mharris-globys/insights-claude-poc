@@ -1,8 +1,9 @@
 import { useMemo } from 'react'
 import { calculateDSO } from '../mockData'
+import MockDataBadge from './MockDataBadge'
 import './InsightBox.css'
 
-function InsightBox({ data }) {
+function InsightBox({ data, isMockData }) {
   const insights = useMemo(() => {
     const { organizations, accounts, bills } = data;
 
@@ -145,6 +146,7 @@ function InsightBox({ data }) {
 
   return (
     <div className="insight-box">
+      <MockDataBadge isMockData={isMockData} />
       <div className="insight-header">
         <h3>🤖 AI-Powered Insights</h3>
         <span className="insight-badge">Live Analysis</span>

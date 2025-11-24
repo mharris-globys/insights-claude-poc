@@ -4,7 +4,9 @@
       "Bash(npm init:*)",
       "Bash(npm install)",
       "Bash(npm run build:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd high-risk organizations module and swap chart positions\n\n- Add new HighRiskOrganizations component showing top 5 at-risk orgs\n- Add MockDataBadge component for data source indication\n- Add config directory for data source configuration\n- Swap HighRiskOrganizations and ServiceUtilization positions in grid\n- Update HighRiskOrganizations to always show top 5 from full dataset (not filtered)\n- Highlight selected org in high-risk list instead of filtering\n- Update styling with enhanced glass-like appearance\n- Rebuild production assets\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

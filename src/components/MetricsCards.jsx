@@ -1,8 +1,9 @@
 import { useMemo } from 'react'
 import { calculateDSO } from '../mockData'
+import MockDataBadge from './MockDataBadge'
 import './MetricsCards.css'
 
-function MetricsCards({ data }) {
+function MetricsCards({ data, isMockData }) {
   const metrics = useMemo(() => {
     const { organizations, accounts, bills } = data;
 
@@ -70,6 +71,7 @@ function MetricsCards({ data }) {
 
   return (
     <div className="metrics-cards">
+      <MockDataBadge isMockData={isMockData} />
       <div className="metric-card">
         <div className="metric-icon" style={{ background: '#e3f2fd' }}>
           <span style={{ color: '#1976d2' }}>🏢</span>

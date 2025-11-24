@@ -27,6 +27,36 @@ const randomNormal = (mean, stdDev) => {
   return num * stdDev + mean;
 };
 
+// Generate weighted surprise factor (heavily weighted towards low values)
+const randomSurpriseFactor = () => {
+  const rand = Math.random();
+
+  // 50% chance: 0-10% surprise factor
+  if (rand < 0.50) {
+    return random(0, 0.10);
+  }
+  // 30% chance: 10-20% surprise factor
+  else if (rand < 0.80) {
+    return random(0.10, 0.20);
+  }
+  // 10% chance: 20-40% surprise factor
+  else if (rand < 0.90) {
+    return random(0.20, 0.40);
+  }
+  // 5% chance: 40-60% surprise factor
+  else if (rand < 0.95) {
+    return random(0.40, 0.60);
+  }
+  // 3% chance: 60-80% surprise factor
+  else if (rand < 0.98) {
+    return random(0.60, 0.80);
+  }
+  // 2% chance: 80-100% surprise factor (outliers)
+  else {
+    return random(0.80, 1.00);
+  }
+};
+
 // Organization size categories
 const getOrgSize = (accountCount) => {
   if (accountCount <= 5) return 'Small';
@@ -168,9 +198,9 @@ export const generateBills = (accounts, organizations) => {
 
       const totalAmount = Math.round((baseAmount + totalServiceCharges) * 100) / 100;
 
-      // Calculate surprise factor (how different is this bill from expected)
-      const expectedAmount = baseAmount + totalServiceCharges * 0.9;
-      const surpriseFactor = Math.min(1, Math.abs(totalAmount - expectedAmount) / expectedAmount);
+      // Generate surprise factor using weighted distribution
+      // (heavily weighted towards low values for realistic bill predictability)
+      const surpriseFactor = randomSurpriseFactor();
 
       // Payment behavior influenced by org satisfaction and churn risk
       let isPaid = false;

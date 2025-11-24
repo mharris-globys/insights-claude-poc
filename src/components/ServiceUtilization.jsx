@@ -34,15 +34,15 @@ function ServiceUtilization({ data }) {
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={chartData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="service" />
-        <YAxis label={{ value: 'Utilization %', angle: -90, position: 'insideLeft' }} />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="utilization" fill="#667eea" name="Average Utilization %" />
-      </BarChart>
-    </ResponsiveContainer>
+        <BarChart data={chartData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="service" />
+          <YAxis label={{ value: 'Utilization %', angle: -90, position: 'insideLeft' }} />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="utilization" fill="#667eea" name="Average Utilization %" />
+        </BarChart>
+      </ResponsiveContainer>
   );
 }
 

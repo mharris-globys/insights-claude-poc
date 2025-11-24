@@ -10,6 +10,9 @@ import DSOTrendChart from './components/DSOTrendChart'
 import OrganizationTable from './components/OrganizationTable'
 import Filters from './components/Filters'
 import InsightBox from './components/InsightBox'
+import HighRiskOrganizations from './components/HighRiskOrganizations'
+import MockDataBadge from './components/MockDataBadge'
+import { isUsingMockData } from './config/dataSourceConfig'
 import './App.css'
 
 function App() {
@@ -33,6 +36,30 @@ function App() {
       document.body.classList.remove('dark-mode');
     }
   }, [darkMode]);
+
+  // Check for persistent login on mount
+  useEffect(() => {
+    const loginData = localStorage.getItem('telecomInsightsLogin');
+    if (loginData) {
+      try {
+        const { timestamp, username } = JSON.parse(loginData);
+        const now = Date.now();
+        const oneDayInMs = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+        // Check if login is still valid (less than 1 day old)
+        if (now - timestamp < oneDayInMs) {
+          setIsLoggedIn(true);
+          setLoginForm({ username, password: '' }); // Don't store password
+        } else {
+          // Login expired, clear localStorage
+          localStorage.removeItem('telecomInsightsLogin');
+        }
+      } catch (error) {
+        // Invalid data in localStorage, clear it
+        localStorage.removeItem('telecomInsightsLogin');
+      }
+    }
+  }, []);
 
   // Filter data based on selected criteria
   const filteredData = useMemo(() => {
@@ -113,6 +140,13 @@ function App() {
     // Accept any credentials for POC
     if (loginForm.username && loginForm.password) {
       setIsLoggedIn(true);
+
+      // Store login info in localStorage with timestamp
+      const loginData = {
+        timestamp: Date.now(),
+        username: loginForm.username
+      };
+      localStorage.setItem('telecomInsightsLogin', JSON.stringify(loginData));
     }
   };
 
@@ -125,6 +159,9 @@ function App() {
       selectedOrgId: null,
       selectedAccountId: null
     });
+
+    // Clear login data from localStorage
+    localStorage.removeItem('telecomInsightsLogin');
   };
 
   // Login Screen
@@ -215,7 +252,7 @@ function App() {
           setSearchTerm={setSearchTerm}
         />
 
-        <InsightBox data={filteredData} />
+        <InsightBox data={filteredData} isMockData={isUsingMockData('insights')} />
 
         {(filters.selectedOrgId || filters.selectedAccountId) && (
           <div className="selection-banner">
@@ -232,10 +269,11 @@ function App() {
           </div>
         )}
 
-        <MetricsCards data={filteredData} />
+        <MetricsCards data={filteredData} isMockData={isUsingMockData('metricsCards')} />
 
         <div className="charts-grid">
           <div className="chart-card full-width">
+            <MockDataBadge isMockData={isUsingMockData('dsoTrend')} />
             <h3>DSO Trend & Prediction</h3>
             <DSOTrendChart
               data={filteredData}
@@ -245,11 +283,17 @@ function App() {
           </div>
 
           <div className="chart-card">
-            <h3>Service Utilization</h3>
-            <ServiceUtilization data={filteredData} />
+            <MockDataBadge isMockData={isUsingMockData('highRiskOrgs')} />
+            <h3>Top 5 High Risk Organizations</h3>
+            <HighRiskOrganizations
+              allOrganizations={organizations}
+              onOrgClick={handleOrgClick}
+              selectedOrgId={filters.selectedOrgId}
+            />
           </div>
 
           <div className="chart-card">
+            <MockDataBadge isMockData={isUsingMockData('satisfactionChart')} />
             <h3>Satisfaction vs Churn Risk</h3>
             <SatisfactionChart
               data={filteredData}
@@ -259,26 +303,32 @@ function App() {
           </div>
 
           <div className="chart-card">
+            <MockDataBadge isMockData={isUsingMockData('autopayPaperless')} />
             <h3>Autopay & Paperless Adoption</h3>
             <AutopayPaperlessChart data={filteredData} />
           </div>
 
-          <div className="chart-card full-width">
-            <h3>Bill Surprise Factor {(filters.selectedOrgId || filters.selectedAccountId) && '(Monthly Trend)'}</h3>
-            <BillSurpriseChart
-              data={filteredData}
-              selectedOrgId={filters.selectedOrgId || filters.selectedAccountId}
-              onOrgClick={handleOrgClick}
-            />
+          <div className="chart-card">
+            <MockDataBadge isMockData={isUsingMockData('billSurprise')} />
+            <h3>Bill Surprise Factor Distribution</h3>
+            <BillSurpriseChart data={filteredData} />
           </div>
 
           <div className="chart-card">
+            <MockDataBadge isMockData={isUsingMockData('churnRisk')} />
             <h3>Churn Risk Distribution</h3>
             <ChurnRiskChart data={filteredData} />
+          </div>
+
+          <div className="chart-card">
+            <MockDataBadge isMockData={isUsingMockData('serviceUtilization')} />
+            <h3>Service Utilization</h3>
+            <ServiceUtilization data={filteredData} />
           </div>
         </div>
 
         <div className="table-section">
+          <MockDataBadge isMockData={isUsingMockData('organizationTable')} />
           <h3>Organization Details</h3>
           <OrganizationTable
             organizations={filteredData.organizations}
